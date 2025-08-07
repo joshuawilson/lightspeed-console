@@ -66,7 +66,11 @@ import ToolModal from './ResponseToolModal';
 
 import './general-page.css';
 
-const QUERY_ENDPOINT = '/api/proxy/plugin/lightspeed-console-plugin/ols/v1/streaming_query';
+// Use development proxy for localhost, console proxy for production
+const isDevelopment = window.location.hostname === 'localhost';
+const QUERY_ENDPOINT = isDevelopment
+  ? 'http://localhost:8444/ols/v1/streaming_query'
+  : '/api/proxy/ols/v1/streaming_query';
 
 type QueryResponseStart = {
   event: 'start';
@@ -357,9 +361,10 @@ type GeneralPageProps = {
   onClose: () => void;
   onCollapse?: () => void;
   onExpand?: () => void;
+  onNextView?: () => void;
 };
 
-const GeneralPage: React.FC<GeneralPageProps> = ({ onClose, onCollapse, onExpand }) => {
+const GeneralPage: React.FC<GeneralPageProps> = ({ onClose, onCollapse, onExpand, onNextView }) => {
   const { t } = useTranslation('plugin__lightspeed-console-plugin');
 
   const dispatch = useDispatch();
@@ -601,6 +606,16 @@ const GeneralPage: React.FC<GeneralPageProps> = ({ onClose, onCollapse, onExpand
   return (
     <Page>
       <PageSection className={isWelcomePage ? undefined : 'ols-plugin__header'} variant="light">
+        {onNextView && (
+          <Button
+            className="ols-plugin__popover-control ols-plugin__next-button"
+            onClick={onNextView}
+            title=".Next"
+            variant="primary"
+          >
+            .Next
+          </Button>
+        )}
         {onExpand && (
           <Button
             className="ols-plugin__popover-control"

@@ -5,7 +5,11 @@ import { Alert, Spinner } from '@patternfly/react-core';
 
 import { getRequestInitWithAuthHeader } from '../hooks/useAuth';
 
-const READINESS_ENDPOINT = '/api/proxy/plugin/lightspeed-console-plugin/ols/readiness';
+// Use development proxy for localhost, console proxy for production
+const isDevelopment = window.location.hostname === 'localhost';
+const READINESS_ENDPOINT = isDevelopment 
+  ? 'http://localhost:8444/ols/readiness' 
+  : '/api/proxy/ols/readiness';
 const REQUEST_TIMEOUT = 5 * 60 * 1000;
 
 const ReadinessAlert: React.FC = () => {

@@ -7,10 +7,11 @@ import { consoleFetchJSON } from '@openshift-console/dynamic-plugin-sdk';
 import { getRequestInitWithAuthHeader } from '../hooks/useAuth';
 import { useBoolean } from '../hooks/useBoolean';
 import { useHideLightspeed } from '../hooks/useHideLightspeed';
-import { closeOLS, openOLS, userFeedbackDisable } from '../redux-actions';
+import { closeOLS, openOLS, setNextView, userFeedbackDisable } from '../redux-actions';
 import { State } from '../redux-reducers';
 import ErrorBoundary from './ErrorBoundary';
 import GeneralPage from './GeneralPage';
+import NextPage from './NextPage';
 
 import './popover.css';
 
@@ -18,7 +19,7 @@ import './popover.css';
 import './pf-styles.css';
 
 const FEEDBACK_STATUS_ENDPOINT =
-  '/api/proxy/plugin/lightspeed-console-plugin/ols/v1/feedback/status';
+  '/api/proxy/ols/v1/feedback/status';
 const REQUEST_TIMEOUT = 5 * 60 * 1000;
 
 const Popover: React.FC = () => {
@@ -27,9 +28,37 @@ const Popover: React.FC = () => {
   const dispatch = useDispatch();
 
   const isOpen = useSelector((s: State) => s.plugins?.ols?.get('isOpen'));
+  const isNextView = useSelector((s: State) => s.plugins?.ols?.get('isNextView'));
 
   const [isExpanded, , expand, collapse] = useBoolean(false);
+
+  // Debug state changes
+  React.useEffect(() => {
+    console.log('Popover state changed:', { isOpen, isNextView, isExpanded });
+  }, [isOpen, isNextView, isExpanded]);
   const [isHidden] = useHideLightspeed();
+
+  const switchToNextView = React.useCallback(() => {
+    dispatch(setNextView(true));
+  }, [dispatch]);
+
+  const switchToLegacyView = React.useCallback(() => {
+    dispatch(setNextView(false));
+  }, [dispatch]);
+
+  // Monitor for unwanted modal closures when in Next view
+  React.useEffect(() => {
+    if (isNextView && !isOpen) {
+      // If we're supposed to be in Next view but modal is closed, reopen it
+      console.log('Next view was inappropriately closed, reopening...');
+      console.log('Stack trace:', new Error().stack);
+      
+      // Add a slight delay to prevent rapid reopening loops
+      setTimeout(() => {
+        dispatch(openOLS());
+      }, 100);
+    }
+  }, [isNextView, isOpen, dispatch]);
 
   React.useEffect(() => {
     consoleFetchJSON(
@@ -67,23 +96,39 @@ const Popover: React.FC = () => {
     <div aria-label={title} className="ols-plugin__popover-container">
       {isOpen ? (
         <>
-          <div
-            className={`ols-plugin__popover ols-plugin__popover--${
-              isExpanded ? 'expanded' : 'collapsed'
-            }`}
-          >
-            {isExpanded ? (
-              <GeneralPage onClose={close} onCollapse={collapse} />
-            ) : (
-              <GeneralPage onClose={close} onExpand={expand} />
-            )}
-          </div>
-          <Button
-            aria-label={title}
-            className="ols-plugin__popover-button"
-            onClick={close}
-            variant="link"
-          />
+          {isNextView ? (
+            <div 
+              className="ols-plugin__next-view-container"
+              onClick={(e) => e.stopPropagation()}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  e.stopPropagation();
+                }
+              }}
+            >
+              <NextPage onLegacyView={switchToLegacyView} />
+            </div>
+          ) : (
+            <div
+              className={`ols-plugin__popover ols-plugin__popover--${
+                isExpanded ? 'expanded' : 'collapsed'
+              }`}
+            >
+              {isExpanded ? (
+                <GeneralPage onClose={close} onCollapse={collapse} onNextView={switchToNextView} />
+              ) : (
+                <GeneralPage onClose={close} onExpand={expand} onNextView={switchToNextView} />
+              )}
+            </div>
+          )}
+          {!isNextView && (
+            <Button
+              aria-label={title}
+              className="ols-plugin__popover-button"
+              onClick={close}
+              variant="link"
+            />
+          )}
         </>
       ) : (
         <Tooltip content={title}>

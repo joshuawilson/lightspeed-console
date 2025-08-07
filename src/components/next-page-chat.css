@@ -1,0 +1,74 @@
+.ols-plugin__next-page-chat {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--pf-v5-global--BackgroundColor--100);
+}
+
+.ols-plugin__next-chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-v5-global--spacer--md);
+  border-bottom: 1px solid var(--pf-v5-global--BorderColor--100);
+  background-color: var(--pf-v5-global--BackgroundColor--200);
+  font-weight: bold;
+}
+
+.ols-plugin__next-chat-history {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--pf-v5-global--spacer--md);
+}
+
+.ols-plugin__next-chat-entry {
+  --logo-size: 2rem;
+  background-position: -1px 0;
+  background-repeat: no-repeat;
+  background-size: var(--logo-size);
+  padding-bottom: var(--pf-v5-global--spacer--md);
+  padding-left: calc(var(--logo-size) + var(--pf-v5-global--spacer--sm));
+  margin-bottom: var(--pf-v5-global--spacer--md);
+  font-size: var(--pf-v5-global--FontSize--sm);
+}
+
+.ols-plugin__next-chat-entry--ai {
+  background-image: url('../assets/logo.svg');
+}
+
+/* stylelint-disable-next-line selector-disallowed-list */
+.pf-v5-theme-dark .ols-plugin__next-chat-entry--ai {
+  background-image: url('../assets/logo-dark.svg');
+}
+
+.ols-plugin__next-chat-entry--user {
+  background-image: url('../assets/user.png');
+}
+
+.ols-plugin__next-chat-entry-name {
+  font-weight: bold;
+  font-size: var(--pf-v5-global--FontSize--xs);
+  margin-bottom: var(--pf-v5-global--spacer--xs);
+}
+
+.ols-plugin__next-chat-entry-cancelled {
+  margin-top: var(--pf-v5-global--spacer--sm);
+}
+
+.ols-plugin__next-chat-prompt {
+  border-top: 1px solid var(--pf-v5-global--BorderColor--100);
+  padding: var(--pf-v5-global--spacer--md);
+  background-color: var(--pf-v5-global--BackgroundColor--100);
+}
+
+.ols-plugin__next-chat-prompt-input {
+  background-color: var(--pf-v5-global--BackgroundColor--100);
+}
+
+.ols-plugin__next-chat-prompt-attachments {
+  margin-top: var(--pf-v5-global--spacer--sm);
+}
+
+.ols-plugin__next-chat-alert {
+  margin-bottom: var(--pf-v5-global--spacer--md);
+}

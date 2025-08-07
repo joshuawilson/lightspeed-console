@@ -27,6 +27,7 @@ export enum ActionType {
   UserFeedbackSetSentiment = 'userFeedbackSetSentiment',
   UserFeedbackSetText = 'userFeedbackSetText',
   ImportCodeBlock = 'importCodeBlock',
+  SetNextView = 'setNextView',
 }
 
 export const addContextEvent = (event: object) => action(ActionType.AddContextEvent, { event });
@@ -103,6 +104,8 @@ export const userFeedbackSetText = (entryIndex: number, text: string) =>
 
 export const importCodeBlock = (code: CodeBlock) => action(ActionType.ImportCodeBlock, { code });
 
+export const setNextView = (isNextView: boolean) => action(ActionType.SetNextView, { isNextView });
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const actions = {
   addContextEvent,
@@ -124,6 +127,7 @@ const actions = {
   setConversationID,
   setIsContextEventsLoading,
   setQuery,
+  setNextView,
   userFeedbackClose,
   userFeedbackDisable,
   userFeedbackOpen,

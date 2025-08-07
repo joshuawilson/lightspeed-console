@@ -2,6 +2,13 @@
   --prompt-start-height: 36px;
 }
 
+.ols-plugin__next-button {
+  position: absolute;
+  top: var(--pf-v5-global--spacer--md);
+  left: var(--pf-v5-global--spacer--md);
+  z-index: 100;
+}
+
 .ols-plugin__alert {
   margin-bottom: var(--pf-v5-global--spacer--lg);
 }

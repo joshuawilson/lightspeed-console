@@ -99,3 +99,15 @@
   right: var(--pf-v5-global--spacer--sm);
   width: var(--pf-v5-global--spacer--md);
 }
+
+.ols-plugin__next-view-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background-color: var(--pf-v5-global--BackgroundColor--100);
+  /* Prevent interactions with elements behind */
+  pointer-events: auto;
+}

@@ -1,0 +1,102 @@
+.ols-plugin__terminal {
+  height: 100%;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.ols-plugin__terminal-body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background-color: var(--pf-v5-global--BackgroundColor--dark-300);
+  color: var(--pf-v5-global--Color--light-100);
+}
+
+.ols-plugin__terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--pf-v5-global--spacer--sm);
+  background-color: var(--pf-v5-global--BackgroundColor--dark-300);
+  font-size: var(--pf-v5-global--FontSize--sm);
+  line-height: 1.4;
+}
+
+.ols-plugin__terminal-entry {
+  margin-bottom: var(--pf-v5-global--spacer--sm);
+}
+
+.ols-plugin__terminal-command {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--pf-v5-global--spacer--xs);
+}
+
+.ols-plugin__terminal-prompt {
+  color: var(--pf-v5-global--success-color--100);
+  font-weight: bold;
+  margin-right: var(--pf-v5-global--spacer--xs);
+}
+
+.ols-plugin__terminal-command-text {
+  color: var(--pf-v5-global--Color--light-100);
+  flex: 1;
+}
+
+.ols-plugin__terminal-timestamp {
+  color: var(--pf-v5-global--Color--light-200);
+  font-size: var(--pf-v5-global--FontSize--xs);
+  margin-left: var(--pf-v5-global--spacer--sm);
+}
+
+.ols-plugin__terminal-output-text {
+  white-space: pre-wrap;
+  margin-left: var(--pf-v5-global--spacer--md);
+  padding: var(--pf-v5-global--spacer--xs) 0;
+}
+
+.ols-plugin__terminal-output--success {
+  color: var(--pf-v5-global--Color--light-100);
+}
+
+.ols-plugin__terminal-output--error {
+  color: var(--pf-v5-global--danger-color--100);
+}
+
+.ols-plugin__terminal-output--running {
+  color: var(--pf-v5-global--warning-color--100);
+}
+
+.ols-plugin__terminal-spinner {
+  color: var(--pf-v5-global--warning-color--100);
+}
+
+.ols-plugin__terminal-input {
+  border-top: 1px solid var(--pf-v5-global--BorderColor--dark-100);
+  background-color: var(--pf-v5-global--BackgroundColor--dark-200);
+  padding: var(--pf-v5-global--spacer--sm);
+  display: flex;
+  align-items: center;
+}
+
+.ols-plugin__terminal-input-field {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--pf-v5-global--Color--light-100) !important;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: var(--pf-v5-global--FontSize--sm);
+}
+
+.ols-plugin__terminal-input-field:focus {
+  box-shadow: none !important;
+}
+
+/* Dark mode overrides for the terminal card header */
+.ols-plugin__terminal .pf-v5-c-card__header {
+  background-color: var(--pf-v5-global--BackgroundColor--dark-200);
+  color: var(--pf-v5-global--Color--light-100);
+  border-bottom: 1px solid var(--pf-v5-global--BorderColor--dark-100);
+}
+
+.ols-plugin__terminal .pf-v5-c-card__title {
+  color: var(--pf-v5-global--Color--light-100);
+}

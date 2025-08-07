@@ -27,6 +27,7 @@ const reducer = (state: OLSState, action: OLSAction): OLSState => {
       contextEvents: [],
       conversationID: null,
       isContextEventsLoading: false,
+      isNextView: false,
       isOpen: false,
       isUserFeedbackEnabled: true,
       openAttachment: null,
@@ -88,6 +89,14 @@ const reducer = (state: OLSState, action: OLSAction): OLSState => {
       return state.set('contextEvents', []);
 
     case ActionType.CloseOLS:
+      // If we're in Next view and someone tries to close, just ignore it completely
+      if (state.get('isNextView')) {
+        // Stay open and stay in Next view
+        console.log('CloseOLS action blocked in Next view');
+        console.log('Stack trace:', new Error().stack);
+        return state;
+      }
+      console.log('CloseOLS action processed normally');
       return state.set('isOpen', false);
 
     case ActionType.OpenAttachmentClear:
@@ -115,6 +124,9 @@ const reducer = (state: OLSState, action: OLSAction): OLSState => {
 
     case ActionType.SetQuery:
       return state.set('query', action.payload.query);
+
+    case ActionType.SetNextView:
+      return state.set('isNextView', action.payload.isNextView);
 
     case ActionType.UserFeedbackClose:
       return state.setIn(

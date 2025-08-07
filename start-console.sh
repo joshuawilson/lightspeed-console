@@ -20,6 +20,9 @@ set -e
 BRIDGE_K8S_AUTH_BEARER_TOKEN=$(oc whoami --show-token 2>/dev/null)
 BRIDGE_USER_SETTINGS_LOCATION="localstorage"
 
+# Configure proxy for Lightspeed API
+BRIDGE_PROXY_SERVICES='[{"endpoint":{"type":"Service","service":{"name":"lightspeed-app-server","namespace":"openshift-lightspeed","port":8443}},"alias":"ols","authorization":"UserToken","caCertificate":""}]'
+
 # Don't fail if the cluster doesn't have gitops.
 set +e
 GITOPS_HOSTNAME=$(oc -n openshift-gitops get route cluster -o jsonpath='{.spec.host}' 2>/dev/null)

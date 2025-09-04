@@ -1,8 +1,21 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Card, CardBody, CardHeader, CardTitle, Title } from '@patternfly/react-core';
+import { 
+  Button, 
+  Card, 
+  CardBody, 
+  CardHeader, 
+  CardTitle, 
+  Title,
+  TreeView,
+  TreeViewDataItem,
+  Toolbar,
+  ToolbarContent,
+  ToolbarItem
+} from '@patternfly/react-core';
+import { FolderPlusIcon } from '@patternfly/react-icons';
 
-import NextPageChat from './NextPageChat';
+import GeneralPage from './GeneralPage';
 import Terminal from './Terminal';
 
 import './next-page.css';
@@ -14,9 +27,75 @@ type NextPageProps = {
 const NextPage: React.FC<NextPageProps> = ({ onLegacyView }) => {
   const { t } = useTranslation('plugin__lightspeed-console-plugin');
 
-  const handleNewChat = React.useCallback(() => {
-    // Handle new chat if needed
+  // Initial mock tree data with OpenShift components and visualizations
+  const initialTreeData: TreeViewDataItem[] = [
+    {
+      name: 'Monitoring',
+      id: 'monitoring',
+      children: [
+        { name: 'Alerts Dashboard', id: 'alerts-dashboard' },
+        { name: 'Alerts Graph', id: 'alerts-graph' },
+        { name: 'Metrics Chart', id: 'metrics-chart' },
+        { name: 'Logs Timeline', id: 'logs-timeline' }
+      ]
+    },
+    {
+      name: 'Workloads',
+      id: 'workloads',
+      children: [
+        { name: 'Pods Status Chart', id: 'pods-status-chart' },
+        { name: 'Pods Performance Graph', id: 'pods-performance-graph' },
+        { name: 'Deployments Overview', id: 'deployments-overview' },
+        { name: 'Services Network Map', id: 'services-network-map' }
+      ]
+    },
+    {
+      name: 'Networking',
+      id: 'networking',
+      children: [
+        { name: 'Routes Traffic Graph', id: 'routes-traffic-graph' },
+        { name: 'Network Policies Diagram', id: 'network-policies-diagram' },
+        { name: 'Ingress Analytics', id: 'ingress-analytics' }
+      ]
+    },
+    {
+      name: 'Storage',
+      id: 'storage',
+      children: [
+        { name: 'PVC Usage Chart', id: 'pvc-usage-chart' },
+        { name: 'Storage Classes Overview', id: 'storage-classes-overview' },
+        { name: 'Volume Health Dashboard', id: 'volume-health-dashboard' }
+      ]
+    },
+    {
+      name: 'Security',
+      id: 'security',
+      children: [
+        { name: 'RBAC Permissions Tree', id: 'rbac-permissions-tree' },
+        { name: 'Security Policies Graph', id: 'security-policies-graph' },
+        { name: 'Vulnerabilities Report', id: 'vulnerabilities-report' }
+      ]
+    }
+  ];
+
+  const [treeData, setTreeData] = React.useState<TreeViewDataItem[]>(initialTreeData);
+  const [activeItems, setActiveItems] = React.useState<TreeViewDataItem[]>([]);
+
+  const addNewFolder = React.useCallback(() => {
+    const folderCount = treeData.length + 1;
+    const newFolder: TreeViewDataItem = {
+      name: `New Folder ${folderCount}`,
+      id: `new-folder-${folderCount}`,
+      children: []
+    };
+    setTreeData(prev => [...prev, newFolder]);
+  }, [treeData.length]);
+
+  const onSelect = React.useCallback((_event: React.MouseEvent, treeViewItem: TreeViewDataItem) => {
+    setActiveItems([treeViewItem]);
   }, []);
+
+
 
   // Comprehensive event capture to prevent modal dismissal
   const handleContainerEvent = React.useCallback((e: React.SyntheticEvent) => {
@@ -70,10 +149,30 @@ const NextPage: React.FC<NextPageProps> = ({ onLegacyView }) => {
         <div className="ols-plugin__next-sidebar">
           <Card>
             <CardHeader>
-              <CardTitle>Saved Views</CardTitle>
+              <CardTitle>{t('Saved Views')}</CardTitle>
+              <Toolbar>
+                <ToolbarContent>
+                  <ToolbarItem>
+                    <Button
+                      variant="link"
+                      icon={<FolderPlusIcon />}
+                      onClick={addNewFolder}
+                      size="sm"
+                      title={t('Add folder')}
+                    >
+                      {t('Add Folder')}
+                    </Button>
+                  </ToolbarItem>
+                </ToolbarContent>
+              </Toolbar>
             </CardHeader>
             <CardBody>
-              <div>No saved views yet</div>
+              <TreeView
+                data={treeData}
+                activeItems={activeItems}
+                onSelect={onSelect}
+                hasGuides
+              />
             </CardBody>
           </Card>
         </div>
@@ -99,7 +198,11 @@ const NextPage: React.FC<NextPageProps> = ({ onLegacyView }) => {
 
         {/* Right Chat Panel */}
         <div className="ols-plugin__next-chat">
-          <NextPageChat onNewChat={handleNewChat} />
+          <GeneralPage 
+            onClose={() => {}} 
+            onCollapse={() => {}}
+            onExpand={() => {}}
+          />
         </div>
       </div>
     </div>

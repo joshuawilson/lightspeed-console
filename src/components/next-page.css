@@ -32,6 +32,25 @@
   overflow-y: auto;
 }
 
+.ols-plugin__next-sidebar .pf-v5-c-card__header {
+  padding-bottom: var(--pf-v5-global--spacer--sm);
+}
+
+.ols-plugin__next-sidebar .pf-v5-c-toolbar {
+  padding: 0;
+  margin: 0;
+}
+
+.ols-plugin__next-sidebar .pf-v5-c-card__body {
+  padding-top: 0;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.ols-plugin__next-sidebar .pf-v5-c-tree-view {
+  background: transparent;
+}
+
 .ols-plugin__next-main {
   flex: 1;
   display: flex;
@@ -55,6 +74,19 @@
   width: 400px;
   border-left: 1px solid var(--pf-v5-global--BorderColor--100);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure GeneralPage fits properly in the Next view chat panel */
+.ols-plugin__next-chat .ols-plugin__popover {
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  position: static;
+  transform: none;
 }
 
 .ols-plugin__next-chat-card {

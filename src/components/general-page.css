@@ -7,6 +7,12 @@
   top: var(--pf-v5-global--spacer--md);
   left: var(--pf-v5-global--spacer--md);
   z-index: 100;
+  height: auto;
+  padding: 0;
+  width: auto;
+  min-width: 80px;
+  min-height: 40px;
+  font-size: var(--pf-v5-global--FontSize--md);
 }
 
 .ols-plugin__alert {

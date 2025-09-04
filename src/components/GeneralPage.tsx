@@ -67,10 +67,11 @@ import ToolModal from './ResponseToolModal';
 import './general-page.css';
 
 // Use development proxy for localhost, console proxy for production
-const isDevelopment = window.location.hostname === 'localhost';
-const QUERY_ENDPOINT = isDevelopment
-  ? 'http://localhost:8444/ols/v1/streaming_query'
-  : '/api/proxy/ols/v1/streaming_query';
+// const isDevelopment = window.location.hostname === 'localhost';
+const QUERY_ENDPOINT = 'http://127.0.0.1:8080/v1/streaming_query';
+// const QUERY_ENDPOINT = isDevelopment
+//   ? 'http://localhost:8444/ols/v1/streaming_query'
+//   : '/api/proxy/ols/v1/streaming_query';
 
 type QueryResponseStart = {
   event: 'start';
